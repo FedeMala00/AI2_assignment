@@ -68,6 +68,12 @@
     :effect (and (opened ?c) (not (closed ?c)))
 )
 
+(:action close_tap
+    :parameters (?c ?l)
+    :precondition (and (CONTAINER ?c) (opened ?c) (at_loc ?c ?l) (is_sink ?l) (is_tap ?c))
+    :effect (and (closed ?c) (not (opened ?c)))
+)
+
 (:action fill_moka
     :parameters (?c1 ?c2 ?e ?l)
     :precondition (and (CONTAINER ?c1) (EDIBLE ?e) (LOCATION ?l) (in ?e ?c1) (at_loc ?c2 ?l) (is_water ?e) (opened ?c1) (opened ?c2) (is_sink ?l) (is_moka ?c2))

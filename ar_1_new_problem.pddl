@@ -59,6 +59,7 @@
         ; (moka_untapped moka)
         (coffee_served mug)
         (containing milk)
+        (closed water_tap)
         )
     )
 
