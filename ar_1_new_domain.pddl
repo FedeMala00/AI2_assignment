@@ -13,10 +13,10 @@
     (at_loc ?c ?l) (free ?g)  (closed ?l) (opened ?l)
     (holding ?g ?c) (in ?e ?c) (on ?c) (inside ?c1 ?c2)
     (moka_full ?c1 ?e1 ?c2 ?e2) (filter_levelled ?c1 ?e1 ?c2 ?e2 ?c3) (moka_ready ?c) (moka_finished ?c)
-    (moka_untapped ?C) (coffee_served ?c)
+    (moka_untapped ?C) (coffee_served ?c) (containing ?e)
     
     (is_closet ?l) (is_grinder ?c) (is_powder ?e) (is_sink ?l) (is_water ?e) (is_filter ?c)
-    (is_tap ?c) (is_moka ?c) (is_spoon ?c) (is_stove ?l) (is_mug ?c)
+    (is_tap ?c) (is_moka ?c) (is_spoon ?c) (is_stove ?l) (is_mug ?c) (is_fridge ?l)
 )
 
 
@@ -28,7 +28,7 @@
 
 (:action open_furniture
     :parameters (?g ?l)
-    :precondition (and (GRIPPER ?g) (LOCATION ?l) (is_closet ?l) (free ?g) (closed ?l))
+    :precondition (and (GRIPPER ?g) (LOCATION ?l) (or (is_closet ?l) (is_fridge ?l)) (free ?g) (closed ?l))
     :effect (and (not (closed ?l)) (opened ?l))
 )
 
@@ -120,6 +120,12 @@
     :parameters (?c1 ?c2)
     :precondition (and (CONTAINER ?c1) (CONTAINER ?c2) (is_moka ?c1) (moka_untapped ?c1) (at_loc ?c1 table) (at_loc ?c2 table) (is_mug ?c2))
     :effect (and (coffee_served ?c2))
+)
+
+(:action add_ingridient
+    :parameters (?c1 ?c2 ?e)
+    :precondition (and (CONTAINER ?c1) (CONTAINER ?c2) (EDIBLE ?e) (at_loc ?c1 table) (at_loc ?c2 table) (is_mug ?c1) (coffee_served ?c1) (opened ?c2) (in ?e ?c2))
+    :effect (and (containing ?e))
 )
 
 
